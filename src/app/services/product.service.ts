@@ -2,15 +2,20 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Product } from '../models/product.model';
 
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private products: Product[] = [];
+  private products: Observable<Product[]>; //Simula en tiempo real el Observable
 
-  constructor() {
-    this.products.push({
+  private productCollection: AngularFirestoreCollection<Product>;
+
+
+  constructor(private firestore: AngularFirestore) {
+   /* this.products.push({
       name: "Aguacate",
       price: 100,
       description: "Lorem ipsum dolor sit amet.",
@@ -37,15 +42,25 @@ export class ProductService {
       description: "Lorem ipsum dolor sit amet.",
       type: "Farmacia",
       photo: "https://picsum.photos/500/300?random"
+    });*/
+
+    this.productCollection = this.firestore.collection<Product>('products'); //Conectar a la colección de productos
+    this.products = this.productCollection.valueChanges(); // Pa que se actualice el arreglo al haber cambios
+  }
+
+  saveProduct(product: Product): Promise<string> {
+   // this.products.push(product);
+   // return of(product);
+   return this.productCollection.add(product)
+    .then((doc)=>{console.log("Producto añadido con id"+doc.id); return "success";})
+    .catch((error)=>{
+      console.log("Error al añadir productos"+error);
+      return "error";
     });
   }
 
-  saveProduct(product: Product): Observable<any> {
-    this.products.push(product);
-    return of(product);
-  }
-
-  getProducts(): Observable<any[]> {
-    return of(this.products);
+  getProducts(): Observable<Product[]> {
+    //return of(this.products);
+    return this.products;
   }
 }
