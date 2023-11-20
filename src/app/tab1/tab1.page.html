@@ -46,9 +46,9 @@
     </ion-row>
 
     <ion-row>
-      <ion-col size="6" *ngFor="let product of productsFounds; index as i">
+      <ion-col size="3" *ngFor="let product of productsFounds; index as i">
         <ion-card>
-          <img [src]="product.photo"/>
+          <img [src]="product.photo" width="350" height="250"/>
           <ion-card-header>
             <ion-card-title>
               {{product.name}}
@@ -59,9 +59,19 @@
           <ion-card-content>
             {{product.description}}
           </ion-card-content>
-          <ion-button expand="block" (click)="addToCart(product, i)">
-            <ion-icon name="cart-outline" ></ion-icon>
-          </ion-button>
+          <div style="display: flex; width: 100%;">
+            <ion-button style="flex: 5%;" (click)="addToFavorites(product)" fill="clear">
+              <ion-icon name="star" [color]="product.favorite ? 'warning' : 'medium'"></ion-icon>
+            </ion-button>
+            <ion-button style="flex: 90%;" expand="block" (click)="addToCart(product)" color="warning">
+              <ion-icon name="cart-outline"></ion-icon>
+            </ion-button>
+            
+            <ion-button style="flex: 5%;" (click)="deleteProduct(product)" fill="clear">
+              <ion-icon name="trash" color="danger"></ion-icon>
+            </ion-button>
+          </div>
+          
         </ion-card>
       </ion-col>
     </ion-row>

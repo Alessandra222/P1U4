@@ -4,6 +4,7 @@ import { CartService } from '../services/cart.service';
 import { Router } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { AuthService } from '../services/auth.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -40,7 +41,7 @@ export class Tab1Page {
     }
   ];
 
-  constructor(private cartService: CartService, private router: Router, private productService: ProductService, private authService: AuthService) {
+  constructor(private cartService: CartService, private router: Router, private productService: ProductService, private authService: AuthService, private toastController: ToastController) {
     this.productService.getProducts().subscribe((products: Product[]) => {
       this.products = products;
       this.productsFounds = this.products;
@@ -65,10 +66,22 @@ export class Tab1Page {
     );
   }
 
-  public addToCart(product: Product, i: number) {
-    product.photo = product.photo + i;
+  public addToCart(product: Product) {
     this.cartService.addToCart(product);
-    console.log(this.cartService.getCart());
+  }
+
+  public deleteProduct(product: Product) {
+    this.productService.deleteProduct(product);
+  }
+
+  async addToFavorites(product: Product) {
+    
+    try {
+      const result = await this.productService.addToFavorites(product);
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   openProductAddPage() {

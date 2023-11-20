@@ -5,6 +5,7 @@ export interface Product {
     description?: string;
     type: string;
     photo: string;
+    favorite: boolean;
 }
 
 export interface CartItem {

@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mi Historial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="inset">
+    <ion-item-group>
+      <div *ngFor="let item of histories"> 
+      
+      <ion-item-divider color="tertiary">
+        <ion-label class="ion-text-end">{{ dateFormat() }}</ion-label>
+      </ion-item-divider>
+  
+      <ion-item *ngFor="let product of item.items">
+        <ion-thumbnail slot="start" style="width: 8.5rem; height: 8.5rem;">
+          <img [src]="product.product.photo" alt="{{ product.product.name }}">
+        </ion-thumbnail> 
+        <ion-label>
+          <h2>{{ product.product.name  }}</h2>
+          <p>{{ product.product.description }}</p>
+          <p>Precio: ${{ product.product.price }}</p>
+          <p>Cantidad: {{ product.quantity }}</p>
+        </ion-label>
+        <ion-item>
+          <ion-label>Total:</ion-label>
+          <ion-note slot="end" class="total-amount" >{{ item.total| currency:'MXN':'symbol':'1.2-2' }}</ion-note>
+       </ion-item>
+
+      </ion-item>
+    </div>
+    </ion-item-group>
+  </ion-list>
+
+</ion-content>
+
+<!--<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let item of histories">
+      <ion-item *ngFor="let product of item.items">
+      <ion-thumbnail slot="start">
+        <img [src]="product.product.photo" alt="{{ product.product.name }}">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ product.product.name  }}</h2>
+        <p>{{ product.product.description }}</p>
+        <p>Precio: ${{ product.product.price }}</p>
+        <p>Cantidad: {{ product.quantity }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Total:</ion-label>
+      <ion-note slot="end" class="total-amount" >{{ item.total| currency:'MXN':'symbol':'1.2-2' }}</ion-note>
+   </ion-item>
+    </ion-item>
+
+  </ion-list>
+  
+</ion-content> -->

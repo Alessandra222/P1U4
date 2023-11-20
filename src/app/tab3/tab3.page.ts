@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { ProductService } from '../services/product.service';
+import { Product } from '../models/product.model';
+
 
 @Component({
   selector: 'app-tab3',
@@ -6,7 +9,14 @@ import { Component } from '@angular/core';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+  public favorite: Product[] = [];
 
-  constructor() {}
+  constructor(public productService: ProductService) {
+    this.productService.getFavoriteProducts().subscribe((products: Product[]) => {
+      this.favorite = products;
+    });
+  }
+
+  
 
 }
