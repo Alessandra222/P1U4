@@ -11,13 +11,50 @@ import { AlertController } from '@ionic/angular';
 })
 export class Tab2Page {
 
-  public cart: Cart;
+  public carts: Cart[] = [];
 
-  constructor(private cartService: CartService, private alertController: AlertController) {
-    this.cart = this.cartService.getCart();
+constructor(private cartService: CartService, private alertController: AlertController) {
+  this.cartService.getCart().subscribe((cart: Cart[]) => { this.carts = cart;});
+}
+
+async promptRemoveItem(item: CartItem) {
+    const alert = await this.alertController.create({
+      header: 'Eliminar Producto',
+      message: `¿Cuántos ${item.product.name} deseas eliminar?`,
+      inputs: [
+        {
+          name: 'quantity',
+          type: 'number',
+          min: 1,
+          max: item.quantity,
+          value: '1', // Valor predeterminado
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler: (data) => {
+            console.log("fuck")
+            const quantityToRemove = parseInt(data.quantity, 10);
+            if (quantityToRemove > 0) {
+              this.cartService.removeItemFromCart(item, quantityToRemove);
+              console.log("fuck")
+            }
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
   }
 
-  async promptRemoveItem(item: CartItem) {
+  
+
+  /*async promptRemoveItem(item: CartItem) {
     const alert = await this.alertController.create({
       header: 'Eliminar Producto',
       message: `¿Cuántos ${item.product.name} deseas eliminar?`,
@@ -48,6 +85,6 @@ export class Tab2Page {
     });
   
     await alert.present();
-  }
+  }*/
 
 }

@@ -26,23 +26,26 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </ion-grid> -->
+  </ion-grid>  (click)="promptRemoveItem(item)" -->
   <ion-list>
-    <ion-item *ngFor="let item of cart.items">
+    <div *ngFor="let item of carts">
+      <ion-item *ngFor="let product of item.items">
       <ion-thumbnail slot="start">
-        <img [src]="item.product.photo" alt="{{ item.product.name }}">
+        <img [src]="product.product.photo" alt="{{ product.product.name }}">
       </ion-thumbnail>
       <ion-label>
-        <h2>{{ item.product.name }}</h2>
-        <p>{{ item.product.description }}</p>
-        <p>Precio: ${{ item.product.price }}</p>
-        <p>Cantidad: {{ item.quantity }}</p>
+        <h2>{{ product.product.name  }}</h2>
+        <p>{{ product.product.description }}</p>
+        <p>Precio: ${{ product.product.price }}</p>
+        <p>Cantidad: {{ product.quantity }}</p>
       </ion-label>
-      <ion-button (click)="promptRemoveItem(item)">Eliminar</ion-button>
+      <ion-button (click)="promptRemoveItem(product)">Eliminar</ion-button>
+      <ion-label>Total:</ion-label>
+      <ion-note slot="end" class="total-amount" >{{ item.total| currency:'MXN':'symbol':'1.2-2' }}</ion-note>
     </ion-item>
+    <ion-item>
+   </ion-item>
+    </div>
   </ion-list>
-  <ion-item>
-    <ion-label>Total:</ion-label>
-    <ion-note slot="end" class="total-amount">{{ cart.total | currency:'MXN':'symbol':'1.2-2' }}</ion-note>
-  </ion-item>
+  
 </ion-content>

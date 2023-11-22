@@ -13,6 +13,7 @@ export interface CartItem {
 }
 
 export interface Cart {
+    id?: string;
     items: CartItem[];
     total: number;
     itemCount: number;
